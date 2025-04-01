@@ -13,9 +13,9 @@ Ce projet consiste à développer une application web de recherche d'images bas�
 
 
 ### 2. Interface Utilisateur
-- **Page d'inscription** permettant d'enregistrer un utilisateur avec sa méthode d'authentification préférée.
-- **Page de connexion** avec options multiples (classique, réseaux sociaux, reconnaissance faciale).
-- Vérification stricte des identifiants avant d'accéder aux fonctionnalités CBIR.
+   - **Page d'inscription** permettant d'enregistrer un utilisateur avec sa méthode d'authentification préférée.
+   - **Page de connexion** avec options multiples (classique, réseaux sociaux, reconnaissance faciale).
+   - Vérification stricte des identifiants avant d'accéder aux fonctionnalités CBIR.
 
 ## Technologies Utilisées
 - **Backend** : Python
@@ -30,7 +30,8 @@ Ce projet consiste à développer une application web de recherche d'images bas�
    ```bash
    streamlit run app.py  # Si Streamlit est utilisé
    ```
-
+## lien vers mon github
+   https://github.com/YASSINELARHRIB/Prj1IA2Yassine.git
 ## Livrables
 - **Code source complet et documenté**
 - **Base de données avec les utilisateurs enregistrés**
