@@ -20,7 +20,7 @@ FACEBOOK_TOKEN_URL = "https://graph.facebook.com/v12.0/oauth/access_token"
 FACEBOOK_USER_INFO = "https://graph.facebook.com/me?fields=id,name,email,picture"
 FACEBOOK_REDIRECT_URI = "http://localhost:8501/"
 
-# 📌 Initialisation de l'état de connexion
+#  Initialisation de l'état de connexion
 if "authenticated" not in st.session_state:
     st.session_state["authenticated"] = False
 if "user_email" not in st.session_state:
@@ -67,7 +67,7 @@ if "code" in query_params and not st.session_state["authenticated"]:
         user_info = get_google_user_info(token_response["access_token"])
         st.session_state["authenticated"] = True
         st.session_state["user_info"] = user_info
-        st.success(f"Bienvenue {user_info['name']} ! 🎉")
+        st.success(f"Bienvenue {user_info['name']} ! ")
 
         # Forcer une redirection pour rafraîchir l’état
         st.rerun()
@@ -77,14 +77,14 @@ if "code" in query_params and not st.session_state["authenticated"]:
 
 
 if st.session_state["authenticated"]:
-    st.success(f"Bienvenue {st.session_state['user_info']['name']} ! 🎉")
+    st.success(f"Bienvenue {st.session_state['user_info']['name']} ! ")
     st.image(st.session_state['user_info']['picture'], width=100)
     st.switch_page("pages/home.py")  # Rediriger vers home seulement si connecté
 else:
     authenticate_google()
 
 
-# 📌 Interface Utilisateur
+#  Interface Utilisateur
 st.title("App : Your WebSite")
 menu = st.sidebar.selectbox("Menu", ["Inscription", "Connexion"])
 
@@ -127,7 +127,7 @@ elif menu == "Connexion":
             if user and check_password(user[3], password):
                 st.session_state["authenticated"] = True
                 st.session_state["user_email"] = email
-                st.success(f"Connexion réussie, {user[1]} ! 🚀")
+                st.success(f"Connexion réussie, {user[1]} ! ")
                 st.rerun()  # Recharge la page pour déclencher la redirection
             else:
                 st.error("Identifiants incorrects.")
