@@ -47,19 +47,22 @@ def facial_recognition_live():
     st.write(" **Veuillez regarder la caméra pour la reconnaissance faciale**")
 
     # Charger les visages de la base de données
-    cursor.execute("SELECT name, photo FROM users")
+    cursor.execute("SELECT name, photo, email FROM users")
     users = cursor.fetchall()
     
     known_faces = []
     known_names = []
+    known_emails = []
 
-    for name, stored_photo in users:
+    for name, stored_photo, email in users:
         stored_image = face_recognition.load_image_file(io.BytesIO(stored_photo))
         stored_encoding = face_recognition.face_encodings(stored_image)
 
         if stored_encoding:  # Vérifier si un visage est détecté
             known_faces.append(stored_encoding[0])
             known_names.append(name)
+            known_emails.append(email)
+
 
     if not known_faces:
         st.error("Aucune donnée de visage trouvée en base de données.")
@@ -91,11 +94,14 @@ def facial_recognition_live():
             if True in matches:
                 match_index = matches.index(True)
                 recognized_name = known_names[match_index]
+                recognized_email = known_emails[match_index]
                 st.success(f"Bienvenue {recognized_name} !")
 
                 # Mise à jour de l'état de connexion
                 st.session_state["authenticated"] = True
-                st.session_state["user_email"] = recognized_name  # Utiliser le nom de l'utilisateur pour l'authentification
+                st.session_state["user_email"] = recognized_email  # Utiliser le nom de l'utilisateur pour l'authentification
+                st.session_state["user_info"] = {"name": recognized_name, "email": recognized_email}
+                
 
                 # Redirection vers la page d'accueil après la reconnaissance
                 st.switch_page("pages/home.py")

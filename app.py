@@ -25,6 +25,11 @@ if "authenticated" not in st.session_state:
     st.session_state["authenticated"] = False
 if "user_email" not in st.session_state:
     st.session_state["user_email"] = None
+# Initialize session state
+if "user_info" not in st.session_state:
+    st.session_state["user_info"] = {"name": "Utilisateur inconnu"}
+
+
 
 # Fonction d'authentification Google
 def authenticate_google():
@@ -77,9 +82,12 @@ if "code" in query_params and not st.session_state["authenticated"]:
 
 
 if st.session_state["authenticated"]:
+    st.switch_page("pages/home.py") 
     st.success(f"Bienvenue {st.session_state['user_info']['name']} ! ")
-    st.image(st.session_state['user_info']['picture'], width=100)
-    st.switch_page("pages/home.py")  # Rediriger vers home seulement si connecté
+    # Afficher les informations de l'utilisateur
+    st.image(st.session_state["user_info"]["picture"], width=100)
+    st.write(f"Nom : {st.session_state['user_info']['name']}")
+    st.write(f"Email : {st.session_state['user_info']['email']}")
 else:
     authenticate_google()
 
@@ -110,11 +118,10 @@ if menu == "Inscription":
 elif menu == "Connexion":
     st.subheader(" Connexion")
     
-    st.write("Connexion via OAuth :")
+    st.write("Connexion via Google :")
     if st.button("Google"):
         authenticate_google()
-    if st.button("Facebook"):
-        authenticate_google()
+    
 
     login_method = st.radio("Méthode de connexion", ["Email/Mot de passe", "Reconnaissance faciale"])
 
@@ -127,8 +134,9 @@ elif menu == "Connexion":
             if user and check_password(user[3], password):
                 st.session_state["authenticated"] = True
                 st.session_state["user_email"] = email
+                st.session_state["user_info"] = {"name": user[1], "email": email}
                 st.success(f"Connexion réussie, {user[1]} ! ")
-                st.rerun()  # Recharge la page pour déclencher la redirection
+                st.rerun()  
             else:
                 st.error("Identifiants incorrects.")
 
